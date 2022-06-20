@@ -1,5 +1,3 @@
-//Start with file names and then organize created files better - sliced merged etc
-
 kaikunNormalTxs = require('./kaikunTxs/kaikunNormalTxs.json');
 kaikunInternalTxs = require('./kaikunTxs/kaikunInternalTxs.json');
 kaikunERC20Txs = require('./kaikunTxs/kaikunERC20Txs.json');

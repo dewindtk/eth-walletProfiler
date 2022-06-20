@@ -1,5 +1,17 @@
 {
+  "name": "fortaxes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "etherscan.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "node-fetch": "^2.6.6"
+    "ethers": "^5.6.8",
+    "node-fetch": "^2.6.1",
+    "url-metadata": "^2.5.0",
+    "web3": "^1.7.3"
   }
 }
