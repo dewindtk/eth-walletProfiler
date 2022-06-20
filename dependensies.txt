@@ -1,0 +1,2 @@
+npm
+npm install node-fetch@2.6.6
