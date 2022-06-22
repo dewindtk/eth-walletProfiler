@@ -1,0 +1,4 @@
+npm
+npm install node-fetch@2.6.6
+npm install ethers
+npm install mkdirp
