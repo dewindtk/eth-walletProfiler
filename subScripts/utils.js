@@ -54,9 +54,13 @@ async function saveInv(wname, addy, timeStamp, pETHInv, pERC20Inv, pERC721Inv, p
     res = "Wallet: " + wname + "\n" + "Address: " + addy + "\n\n"
     res += "----- Your inventory on the " + getTime(timeStamp).toString() + " -----\n\n"
     res += "Ethereum: " + pETHInv.toString() + "\n\n"
+    res += "                       --------------------------------------------- \n\n"
     res += "ERC20 Inventory: " + JSON.stringify(pERC20Inv, null, 2) + "\n\n"
+    res += "                       --------------------------------------------- \n\n"
     res += "ERC721 Inventory: " + JSON.stringify(pERC721Inv, null, 2) + "\n\n"
+    res += "                       --------------------------------------------- \n\n"
     res += "ERC1155 Inventory " + JSON.stringify(pERC1155Inv, null, 2) + "\n\n"
+    res += "                       --------------------------------------------- \n\n"
 
     await fs.promises.writeFile(`./WALLET_${wname}_${timeStamp}.txt`, res, (err) => {
         if (err) {
