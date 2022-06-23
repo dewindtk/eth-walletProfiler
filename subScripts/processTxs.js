@@ -211,7 +211,8 @@ async function main()
             console.log("ERC20 Inventory: ", ERC20Inv)
             console.log("ERC721 Inventory: ", ERC721Inv)
             console.log("ERC1155 Inventory: ", ERC1155Inv)
-            
+            console.log("Saving these into: " + `./WALLET_${wname}_${timeStamp}.txt`)
+            await utils.saveInv(wname, wallet, timeStamp, ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv)
             console.log("All done, exiting")
             return 0
         }
