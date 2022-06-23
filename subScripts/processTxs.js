@@ -211,7 +211,8 @@ async function main()
             console.log("ERC20 Inventory: ", ERC20Inv)
             console.log("ERC721 Inventory: ", ERC721Inv)
             console.log("ERC1155 Inventory: ", ERC1155Inv)
-            console.log("Loop done, exiting")
+            
+            console.log("All done, exiting")
             return 0
         }
         thisTxType = thisTx.value.txType
