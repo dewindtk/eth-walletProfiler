@@ -18,7 +18,7 @@ var ERC1155Inv = {}
 const question1 = () => {
     return new Promise((resolve, reject) => {
         rl.question("Please input the Wallet to be analysed: ", function (answer) {
-            addy = answer
+            addy = answer.toLowerCase()
             resolve()
         });
     })
@@ -44,33 +44,33 @@ const question3 = () => {
 
 
 async function main(){
-    // await question1()
-    // await question2()
-    // await question3()
-    // rl.close()
+    await question1()
+    await question2()
+    await question3()
+    rl.close()
 
-    // wallets[addy] = [wname, stamp]
-    // console.log(addy, wname, stamp)
+    wallets[addy] = [wname, stamp]
+    console.log(addy, wname, stamp)
 
-    // console.log("Saving wallet data in wallets.json: ", wallets)
-    // await fs.promises.writeFile("./wallets.json", JSON.stringify(wallets), (err) => {
-    //     if (err) {
-    //         throw err;
-    //     }
-    // return 0
-    // });
+    console.log("Saving wallet data in wallets.json: ", wallets)
+    await fs.promises.writeFile("./wallets.json", JSON.stringify(wallets), (err) => {
+        if (err) {
+            throw err;
+        }
+    return 0
+    });
 
-    // fs.mkdirSync((`./WALLET_${wname}`))
+    fs.mkdirSync((`./WALLET_${wname}`))
 
-    // const fetchTxs = require("./subScripts/fetschTxs.js")
-    // await fetchTxs.main()
-    // console.log("fetchTxs done")
-    // const prepareJsonArray = require("./subScripts/prepareJsonArray.js")
-    // await prepareJsonArray.main()
-    // console.log("prepareJsonArray done")
-    // const processTxs = require("./subScripts/processTxs")
-    // console.log("processing Txs...")
-    // processTxs.main(ETHInv)
+    const fetchTxs = require("./subScripts/fetschTxs.js")
+    await fetchTxs.main()
+    console.log("fetchTxs done")
+    const prepareJsonArray = require("./subScripts/prepareJsonArray.js")
+    await prepareJsonArray.main()
+    console.log("prepareJsonArray done")
+    const processTxs = require("./subScripts/processTxs")
+    console.log("processing Txs...")
+    processTxs.main(ETHInv)
 }
 
 console.log("testing script...")

@@ -13,21 +13,20 @@ const userTxs = require(`../WALLET_${wname}/${wname}_MERGEDTxs_${timeStamp}.json
 // var web3 = new Web3(Web3.givenProvider || 'https://eth-mainnet.alchemyapi.io/v2/JNemY7zxf_s_VMtUSeb74DsUYIyuzedA');
 
 
-var ETHInv = 0
-var ERC20Inv = {}
-var ERC721Inv = {}
-var ERC1155Inv = {}
+ETHInv = 0
+ERC20Inv = {}
+ERC721Inv = {}
+ERC1155Inv = {}
 
 
 // For normal IMPORTANT: only +- value and not the tokens minted/transfered, those will be in ERC20/721
 function processNormal(tx)
 {
-    console.log(tx)
-    
     if (tx.to.toLowerCase() === wallet)
     {
         if (tx.isError === "0")
         {
+            console.log("this : ", parseFloat(ethers.utils.formatEther(tx.value)))
             ETHInv += parseFloat(ethers.utils.formatEther(tx.value))
         }
         
