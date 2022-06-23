@@ -28,3 +28,5 @@ Once you provide your info, a folder will be created in the same directory where
 - Multiple wallets 
 
 Pls send me feedbacks and requests on discord! :D
+
+Caution: some contracts (such as the ETHERORCS NFT contract) may not Emit Token transfer events correctly. This means your inventory will not be updated correctly (As I am fetching your Txs from etherscan, which sometimes cannot be trusted). ETHERORCS is supported by this script, however if you get an error (or other errors in general) pls lmk and I will add support for those! Thx!
