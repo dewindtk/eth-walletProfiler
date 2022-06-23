@@ -13,3 +13,13 @@ npm install mkdirp
 ````
 
 Then fire up the script with 'node walletProfiler.js'
+
+### In Short, 
+Once you provide your info, a folder will be created in the same directory where all your past transactions will be stored. From there all transactions past the timestamp you have given will be cut, and the script will calculate your inventory based on all transactions that have been confirmed (including all Internal Txs and token transfers).
+
+### TODO (Roadmap :P)
+- UI
+- Visualization of your inventory
+- Iteration through timestamps with arrow keys
+- ENS names
+- Multiple wallets support
