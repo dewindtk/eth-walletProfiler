@@ -23,6 +23,8 @@ async function fetchNormalTxs()
     const resJson = await response.json()
     data = resJson.result
 
+    if (data == null){data = []}
+
     for (i=0;i<data.length;i++)
     {
         data[i].txType = 'Normal'
@@ -43,6 +45,8 @@ async function fetchInternalTxs()
     const response = await fetch(InternalTxs)
     const resJson = await response.json()
     data = resJson.result
+
+    if (data == null){data = []}
 
     for (i=0;i<data.length;i++)
     {
@@ -65,6 +69,8 @@ async function fetchERC20Txs()
     const resJson = await response.json()
     data = resJson.result
 
+    if (data == null){data = []}
+
     for (i=0;i<data.length;i++)
     {
         data[i].txType = 'ERC20'
@@ -86,6 +92,8 @@ async function fetchERC721Txs()
     const resJson = await response.json()
     data = resJson.result
 
+    if (data == null){data = []}
+
     for (i=0;i<data.length;i++)
     {
         data[i].txType = 'ERC721'
@@ -106,6 +114,8 @@ async function fetchERC1155Txs()
     const response = await fetch(ERC1155Txs)
     const resJson = await response.json()
     data = resJson.result
+
+    if (data == null){data = []}
 
     for (i=0;i<data.length;i++)
     {

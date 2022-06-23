@@ -1,4 +1,5 @@
 wallets = require('../wallets.json')
+mainScript = require("../walletAnalyser")
 //Only supports one wallet for now
 wallet = Object.keys(wallets)[0]
 wname = wallets[wallet][0]
@@ -11,9 +12,17 @@ const ethers = require('ethers');
 const userTxs = require(`../WALLET_${wname}/${wname}_MERGEDTxs_${timeStamp}.json`)
 // var web3 = new Web3(Web3.givenProvider || 'https://eth-mainnet.alchemyapi.io/v2/JNemY7zxf_s_VMtUSeb74DsUYIyuzedA');
 
+
+var ETHInv = 0
+var ERC20Inv = {}
+var ERC721Inv = {}
+var ERC1155Inv = {}
+
+
 // For normal IMPORTANT: only +- value and not the tokens minted/transfered, those will be in ERC20/721
-function processNormal(tx, ETHInv)
+function processNormal(tx)
 {
+    console.log(tx)
     
     if (tx.to.toLowerCase() === wallet)
     {
@@ -36,7 +45,6 @@ function processNormal(tx, ETHInv)
         }
     }
     console.log(ETHInv)
-    return ETHInv
 }
 
 // TODO staking rewards (income and stuff)
@@ -181,8 +189,13 @@ function processERC1155(tx)
 
 
 
-async function main(ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv) 
+async function main() 
 {
+
+    // var ETHInv = 0
+    // var ERC20Inv = {}
+    // var ERC721Inv = {}
+    // var ERC1155Inv = {}
 
     txs = utils.txIterator(userTxs)
     done = false
@@ -206,7 +219,7 @@ async function main(ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv)
             console.log("ERC721 Inventory: ", ERC721Inv)
             console.log("ERC1155 Inventory: ", ERC1155Inv)
             console.log("Loop done, exiting")
-            return [ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv]
+            return 0
         }
         thisTxType = thisTx.value.txType
         // console.log("Tx: ", thisTx.value)
@@ -216,7 +229,7 @@ async function main(ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv)
         switch (thisTxType)
         {
             case 'Normal': 
-            ETHInv = processNormal(thisTx.value, ETHInv)
+            processNormal(thisTx.value)
             break;
 
             case 'Internal': 
@@ -240,6 +253,8 @@ async function main(ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv)
 
     }
 };
+
+main()
 
 module.exports = {
     main
