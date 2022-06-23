@@ -15,7 +15,7 @@ npm install ethers
 npm install mkdirp
 ````
 
-Then fire up the script with 'node walletProfiler.js'
+Then fire up the script with ```node walletProfiler.js```
 
 ### In Short, 
 Once you provide your info, a folder will be created in the same directory where all your past transactions will be stored. From there all transactions past the timestamp you have given will be cut, and the script will calculate your inventory based on those that have been confirmed (including all Internal Txs and token transfers). This will create a txt file (currently not clean) with your inventory:
