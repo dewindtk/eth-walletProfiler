@@ -35,7 +35,8 @@ const keypress = async () =>
 function findIndex2Exclude(arr, stamp) // BRO pls make this more efficient ffs
 {
     i = 0
-    while(arr[i].timeStamp < stamp && i<arr.length)
+    console.log(arr)
+    while(i<arr.length && arr[i].timeStamp < stamp)
     {
         i++ ;
     }
