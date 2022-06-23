@@ -5,6 +5,7 @@ This script was made for tax purposes. Input your wallet and a timeStamp (in Epo
 Please install these dependencies first:
 
 Download and install NodeJS from https://nodejs.org/en/download/
+
 Clone this directory (Download and extract), navigate to this directory on your Command line and type:
 
 ```
