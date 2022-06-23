@@ -1,5 +1,3 @@
-//Start with file names and then organize created files better - sliced merged etc cut with Date!
-
 wallets = require('../wallets.json')
 //Only supports one wallet for now
 wallet = Object.keys(wallets)[0]

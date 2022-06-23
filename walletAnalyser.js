@@ -1,19 +1,11 @@
 const utils = require("./subScripts/utils.js")
 const fs = require("fs")
 const readline = require("readline");
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
-
+const rl = readline.createInterface({input: process.stdin,output: process.stdout,});
 var wallets = {}
 var addy = ""
 var wname = ""
 var stamp = ""
-var ETHInv = 0
-var ERC20Inv = {}
-var ERC721Inv = {}
-var ERC1155Inv = {}
 
 const question1 = () => {
     return new Promise((resolve, reject) => {
@@ -70,8 +62,8 @@ async function main(){
     console.log("prepareJsonArray done")
     const processTxs = require("./subScripts/processTxs")
     console.log("processing Txs...")
-    processTxs.main(ETHInv)
+    processTxs.main()
 }
 
-console.log("testing script...")
+console.log("Running Scripts...")
 main()

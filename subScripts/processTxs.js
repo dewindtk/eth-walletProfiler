@@ -26,7 +26,6 @@ function processNormal(tx)
     {
         if (tx.isError === "0")
         {
-            console.log("this : ", parseFloat(ethers.utils.formatEther(tx.value)))
             ETHInv += parseFloat(ethers.utils.formatEther(tx.value))
         }
         
@@ -43,7 +42,6 @@ function processNormal(tx)
             ETHInv -= txValue
         }
     }
-    console.log(ETHInv)
 }
 
 // TODO staking rewards (income and stuff)
@@ -152,7 +150,6 @@ function processERC1155(tx)
         amount: tx.tokenValue
     }
 
-    console.log(tx, ERC1155Inv)
     if (tx.to.toLowerCase() === wallet)  //Emit errors TODO
     {
         if (!(thisToken.contractAddress in ERC1155Inv))
@@ -190,11 +187,6 @@ function processERC1155(tx)
 
 async function main() 
 {
-
-    // var ETHInv = 0
-    // var ERC20Inv = {}
-    // var ERC721Inv = {}
-    // var ERC1155Inv = {}
 
     txs = utils.txIterator(userTxs)
     done = false
