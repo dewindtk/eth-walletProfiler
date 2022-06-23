@@ -25,6 +25,8 @@ Once you provide your info, a folder will be created in the same directory where
 - Your ERC721 Inventory (contract address: [CollectionName, ...TokenIDs])
 - Your ERC1155 Inventory (contract adddress: [CollectionName, ...TokenIDs])
 
+Please check the Example Output for reference :)
+
 
 ### TODO (Roadmap :P)
 - UI (python?)
