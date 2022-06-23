@@ -9,7 +9,7 @@ Download and install NodeJS from https://nodejs.org/en/download/
 Clone this directory (Download and extract), navigate to this directory on your Command line and type:
 
 ```
-npm init
+npm init (then press enter a bunch of times)
 npm install node-fetch@2.6.6
 npm install ethers
 npm install mkdirp
