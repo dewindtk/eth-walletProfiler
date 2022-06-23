@@ -205,6 +205,8 @@ async function main()
         if (thisDone == true) 
         {
 
+            console.log("---Process Txs DONE")
+            console.log(`### YOUR INVENTORY on the ${utils.getTime(timeStamp).toString()}: ###`)
             console.log("Total Value: ", ETHInv)
             console.log("ERC20 Inventory: ", ERC20Inv)
             console.log("ERC721 Inventory: ", ERC721Inv)
@@ -214,8 +216,8 @@ async function main()
         }
         thisTxType = thisTx.value.txType
         // console.log("Tx: ", thisTx.value)
-        console.log("Is loop Done:", thisDone)
-        console.log("Processing Tx...")
+        // console.log("Is loop Done:", thisDone)
+        // console.log("Processing Tx...")
 
         switch (thisTxType)
         {

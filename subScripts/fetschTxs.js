@@ -1,5 +1,4 @@
 wallets = require('../wallets.json')
-console.log(wallets)
 
 //Only supports one wallet for now
 

@@ -42,7 +42,6 @@ async function main(){
     rl.close()
 
     wallets[addy] = [wname, stamp]
-    console.log(addy, wname, stamp)
 
     console.log("Saving wallet data in wallets.json: ", wallets)
     await fs.promises.writeFile("./wallets.json", JSON.stringify(wallets), (err) => {
@@ -55,14 +54,18 @@ async function main(){
     fs.mkdirSync((`./WALLET_${wname}`))
 
     const fetchTxs = require("./subScripts/fetschTxs.js")
+    console.log("Fetching all Txs related to this wallet...")
     await fetchTxs.main()
-    console.log("fetchTxs done")
+    console.log("----FetchTxs DONE")
+
     const prepareJsonArray = require("./subScripts/prepareJsonArray.js")
     await prepareJsonArray.main()
-    console.log("prepareJsonArray done")
+    console.log("----PrepareJsonArray DONE")
+
     const processTxs = require("./subScripts/processTxs")
     console.log("processing Txs...")
     processTxs.main()
+    
 }
 
 console.log("Running Scripts...")
