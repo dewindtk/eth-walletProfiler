@@ -54,7 +54,7 @@ async function main(){
     fs.mkdirSync((`./WALLET_${wname}`))
 
     const fetchTxs = require("./subScripts/fetschTxs.js")
-    console.log("Fetching all Txs related to this wallet...")
+    console.log("Fetching all Txs related to this wallet, a moment of patience please...")
     await fetchTxs.main()
     console.log("----FetchTxs DONE")
 
