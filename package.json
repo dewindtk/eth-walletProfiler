@@ -1,0 +1,16 @@
+{
+  "name": "fortaxes",
+  "version": "1.0.0",
+  "description": "This script was made for tax purposes. Input your wallet and a timeStamp (in Epoch) and you will see the entire inventory of your ETH wallet at that timeStamp. Enjoy :)",
+  "main": "walletAnalyser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^5.6.9",
+    "mkdirp": "^1.0.4",
+    "node-fetch": "^2.6.6"
+  }
+}
