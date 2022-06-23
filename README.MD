@@ -21,7 +21,7 @@ Then fire up the script with 'node walletProfiler.js'
 Once you provide your info, a folder will be created in the same directory where all your past transactions will be stored. From there all transactions past the timestamp you have given will be cut, and the script will calculate your inventory based on those that have been confirmed (including all Internal Txs and token transfers).
 
 ### TODO (Roadmap :P)
-- UI
+- UI (python?)
 - Visualization of your inventory
 - Iteration through timestamps with arrow keys
 - ENS names
