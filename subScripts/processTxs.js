@@ -1,5 +1,5 @@
 wallets = require('../wallets.json')
-mainScript = require("../walletAnalyser")
+mainScript = require("../walletProfiler")
 //Only supports one wallet for now
 wallet = Object.keys(wallets)[0]
 wname = wallets[wallet][0]
