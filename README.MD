@@ -25,7 +25,7 @@ Once you provide your info, a folder will be created in the same directory where
 - Visualization of your inventory
 - Iteration through timestamps with arrow keys
 - ENS names
-- Multiple wallets 
+- Multiple wallets at once
 
 Pls send me feedbacks and requests on discord! :D
 
