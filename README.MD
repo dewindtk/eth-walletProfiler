@@ -10,6 +10,8 @@ Clone this directory (Download and extract), navigate to this directory on your 
 
 ```
 npm init (then press enter a bunch of times)
+npm install ethers mkdirp
+npm install node-fetch@2.6.6
 ````
 
 Then fire up the script with ```node walletProfiler.js```
