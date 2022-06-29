@@ -5,12 +5,14 @@ wallet = Object.keys(wallets)[0]
 wname = wallets[wallet][0]
 timeStamp = wallets[wallet][1]
 
+var Web3 = require('web3');
+var web3 = new Web3('https://eth-mainnet.alchemyapi.io/v2/xbNNi6QORYH95QoC6vIDF81fdb52fTbe');
 const utils = require('./utils.js');
 const fetch = require('node-fetch');
 // const Web3 = require('web3');
 const ethers = require('ethers');
 const userTxs = require(`../WALLET_${wname}/${wname}_MERGEDTxs_${timeStamp}.json`)
-// var web3 = new Web3(Web3.givenProvider || 'https://eth-mainnet.alchemyapi.io/v2/JNemY7zxf_s_VMtUSeb74DsUYIyuzedA');
+const abiDecoder = require('abi-decoder');
 
 
 ETHInv = 0
@@ -41,6 +43,35 @@ function processNormal(tx)
             txValue = parseFloat(ethers.utils.formatEther(tx.value))
             ETHInv -= txValue
         }
+    }
+        
+        // WETH SUPPORT EXPERIMENTAERY
+    if (tx.input === "0xd0e30db0" && tx.to.toLowerCase() === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")
+    {
+        if (!("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" in ERC20Inv))
+        {
+            ERC20Inv["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"] = ["WETH", txValue, 18]
+        }
+        else {ERC20Inv["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"][1] += txValue}
+    }
+
+
+    // When withdrawal, WETH to ETH, eth gets added successfully but WETH isnt abgezogen.
+    // Decompile input to determine abziehen amount
+    
+    if (tx.functionName === "withdraw(uint256 amount)" && tx.to.toLowerCase() === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")
+    {
+        
+        decodedData = abiDecoder.decodeMethod(tx.input);
+        txValue = parseFloat(ethers.utils.formatEther(decodedData.params[0].value))
+        // console.log("before:", ERC20Inv)
+        try {ERC20Inv["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"][1] -= txValue}
+        catch (error)
+        {
+            if (error instanceof TypeError) 
+            ERC20Inv["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"] = ["WETH", -1*txValue, 18]
+        }
+        // console.log("after", ERC20Inv)
     }
 }
 
@@ -190,6 +221,12 @@ async function main()
 
     txs = utils.txIterator(userTxs)
     done = false
+
+    //WETH ABI link
+    const WETHABI = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`)
+    const WETHABIJSON = await WETHABI.json()
+    const WETHABIJSONRESULT = JSON.parse(WETHABIJSON.result)
+    abiDecoder.addABI(WETHABIJSONRESULT);
 
     while(1)
     {
