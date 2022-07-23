@@ -1,3 +1,5 @@
+dotenv = require('dotenv')
+dotenv.config();
 const utils = require('./utils.js');
 const fetch = require('node-fetch');
 const ethers = require('ethers');
@@ -10,7 +12,7 @@ wname = wallets[wallet][0]
 timeStamp = wallets[wallet][1]
 
 var Web3 = require('web3');
-var web3 = new Web3('https://eth-mainnet.alchemyapi.io/v2/xbNNi6QORYH95QoC6vIDF81fdb52fTbe');
+var web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.MAINNETAPIKEY}`);
 
 // const Web3 = require('web3');
 const userTxs = require(`../WALLET_${wname}/${wname}_MERGEDTxs_${timeStamp}.json`)
@@ -226,9 +228,9 @@ async function main()
 
     txs = utils.txIterator(userTxs)
     done = false
-
+    
     //WETH ABI link
-    const WETHABI = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`)
+    const WETHABI = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&apikey=${process.env.ETHERSCANAPIKEY}`)
     const WETHABIJSON = await WETHABI.json()
     const WETHABIJSONRESULT = JSON.parse(WETHABIJSON.result)
     abiDecoder.addABI(WETHABIJSONRESULT);

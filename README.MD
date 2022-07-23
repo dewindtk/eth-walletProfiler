@@ -13,7 +13,10 @@ npm init (then press enter a bunch of times)
 npm install
 ````
 
-Then fire up the script with ```node walletProfiler.js```
+Then, You will need an ETH Mainnet API Key and an Etherscan API key which you can both get for free after creating an account on those platforms.
+Please insert them into the ```.env.example``` file and rename this one to ```.env``` 
+
+Finally, fire up the script with ```node walletProfiler.js```
 
 ### In Short, 
 Once you provide your info, a folder will be created in the same directory where all your past transactions will be stored. From there all transactions past the timestamp you have given will be cut, and the script will calculate your inventory based on those that have been confirmed (including all Internal Txs and token transfers). This will create a txt file with your inventory:

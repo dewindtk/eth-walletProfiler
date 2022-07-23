@@ -1,4 +1,6 @@
 wallets = require('../wallets.json')
+dotenv = require('dotenv')
+dotenv.config();
 
 //Only supports one wallet for now
 
@@ -6,11 +8,11 @@ wallet = Object.keys(wallets)[0]
 wname = wallets[wallet][0]
 
 const fetch = require('node-fetch');
-const NormalTxs = `https://api.etherscan.io/api?module=account&action=txlist&address=${wallet}&startblock=0&endblock=99999999&page=1&offset=9000&sort=asc&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`
-const InternalTxs = `https://api.etherscan.io/api?module=account&action=txlistinternal&address=${wallet}&startblock=0&endblock=99999999&page=1&offset=9000&sort=asc&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`
-const ERC20Txs = `https://api.etherscan.io/api?module=account&action=tokentx&address=${wallet}&page=1&offset=9000&startblock=0&endblock=99999999&sort=asc&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`
-const ERC721Txs = `https://api.etherscan.io/api?module=account&action=tokennfttx&address=${wallet}&page=1&offset=9000&startblock=0&endblock=99999999&sort=asc&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`
-const ERC1155Txs = `https://api.etherscan.io/api?module=account&action=token1155tx&address=${wallet}&page=1&offset=9000&startblock=0&endblock=99999999&sort=asc&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`
+const NormalTxs = `https://api.etherscan.io/api?module=account&action=txlist&address=${wallet}&startblock=0&endblock=99999999&page=1&offset=9000&sort=asc&apikey=${process.env.ETHERSCANAPIKEY}`
+const InternalTxs = `https://api.etherscan.io/api?module=account&action=txlistinternal&address=${wallet}&startblock=0&endblock=99999999&page=1&offset=9000&sort=asc&apikey=${process.env.ETHERSCANAPIKEY}`
+const ERC20Txs = `https://api.etherscan.io/api?module=account&action=tokentx&address=${wallet}&page=1&offset=9000&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCANAPIKEY}`
+const ERC721Txs = `https://api.etherscan.io/api?module=account&action=tokennfttx&address=${wallet}&page=1&offset=9000&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCANAPIKEY}`
+const ERC1155Txs = `https://api.etherscan.io/api?module=account&action=token1155tx&address=${wallet}&page=1&offset=9000&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCANAPIKEY}`
 const fs = require('fs')
 
 // TODO Concat these 5 functions? --> To Utils
