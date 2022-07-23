@@ -1,11 +1,12 @@
-const rl = readline.createInterface({input: process.stdin,output: process.stdout,});
-const utils = require("./subScripts/utils.js")
 const readline = require("readline");
+const utils = require("./subScripts/utils.js")
 const fs = require("fs")
 var wallets = {}
 var addy = ""
 var wname = ""
 var stamp = ""
+
+const rl = readline.createInterface({input: process.stdin,output: process.stdout,});
 
 const question1 = () => {
     return new Promise((resolve, reject) => {
