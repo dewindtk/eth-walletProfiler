@@ -1,5 +1,9 @@
+const utils = require('./utils.js');
+const fetch = require('node-fetch');
+const ethers = require('ethers');
 wallets = require('../wallets.json')
 mainScript = require("../walletProfiler")
+
 //Only supports one wallet for now
 wallet = Object.keys(wallets)[0]
 wname = wallets[wallet][0]
@@ -7,10 +11,8 @@ timeStamp = wallets[wallet][1]
 
 var Web3 = require('web3');
 var web3 = new Web3('https://eth-mainnet.alchemyapi.io/v2/xbNNi6QORYH95QoC6vIDF81fdb52fTbe');
-const utils = require('./utils.js');
-const fetch = require('node-fetch');
+
 // const Web3 = require('web3');
-const ethers = require('ethers');
 const userTxs = require(`../WALLET_${wname}/${wname}_MERGEDTxs_${timeStamp}.json`)
 const abiDecoder = require('abi-decoder');
 
@@ -24,6 +26,7 @@ ERC1155Inv = {}
 // For normal IMPORTANT: only +- value and not the tokens minted/transfered, those will be in ERC20/721
 function processNormal(tx)
 {
+    //Using if statements to support Txs sent to thyself
     if (tx.to.toLowerCase() === wallet)
     {
         if (tx.isError === "0")
@@ -45,7 +48,7 @@ function processNormal(tx)
         }
     }
         
-        // WETH SUPPORT EXPERIMENTAERY
+        // WETH SUPPORT EXPERIMENTAERY (Buying WETH)
     if (tx.input === "0xd0e30db0" && tx.to.toLowerCase() === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")
     {
         if (!("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" in ERC20Inv))
@@ -56,9 +59,9 @@ function processNormal(tx)
     }
 
 
-    // When withdrawal, WETH to ETH, eth gets added successfully but WETH isnt abgezogen.
-    // Decompile input to determine abziehen amount
-    
+    // When withdrawal, WETH to ETH, eth gets added successfully but WETH isnt deducted.
+    // Decompile input to determine deducted amount.
+    // WETH SUPPORT EXPERIMENTAERY (Selling WETH)
     if (tx.functionName === "withdraw(uint256 amount)" && tx.to.toLowerCase() === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")
     {
         
@@ -77,6 +80,7 @@ function processNormal(tx)
 
 // TODO staking rewards (income and stuff)
 // TODO if transfer in and out in the same tx, ordering might conflict with process --> hold processing and retry after next?
+// --> for now using negative token amount
 
 function processInternal(tx)
 {
@@ -114,6 +118,7 @@ function processERC20(tx)
             if (error instanceof TypeError) 
             ERC20Inv[thisToken.contractAddress] = [thisToken.tokenSymbol, -1*utils.bigNum2Float(thisToken.amount, thisToken.tokenDecimal), thisToken.tokenDecimal]
         }
+        //Add this to README some day
         if (ERC20Inv[thisToken.contractAddress][1] <= 0.001 && ERC20Inv[thisToken.contractAddress][1] >= -0.001){delete ERC20Inv[thisToken.contractAddress]}
     }
 }
@@ -125,7 +130,7 @@ function processERC721(tx)
         tokenName: tx.tokenName,
     }
 
-    // Add support for actually sending the token to yourself
+    //Etherorcs weird ERC721 implementation support (case specific)
     if ((tx.contractAddress === "0x7d9d3659dcfbea08a87777c52020bc672deece13" || 
         tx.contractAddress === "0x3aBEDBA3052845CE3f57818032BFA747CDED3fca") && 
         tx.to.toLowerCase() === wallet && tx.from.toLowerCase() === wallet)
@@ -230,6 +235,7 @@ async function main()
 
     while(1)
     {
+        // For debugging
         // try {thisTx = txs.next()}
         // catch (error)
         // {
@@ -281,6 +287,7 @@ async function main()
             break;
         }
 
+        // For debugging
         // await utils.keypress()
 
     }

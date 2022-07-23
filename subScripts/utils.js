@@ -1,8 +1,7 @@
-const kaikun = "0xbC5126Ea9D3A9b7e8353051DC646bfC4fC65c1F7".toLocaleLowerCase()
 const ethers = require('ethers');
 const fs = require("fs")
 
-
+// Convert Epoch to Time
 function getTime(epoch)
 {
     var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -10,6 +9,7 @@ function getTime(epoch)
     return d
 }
 
+// Yield function for tx processing
 function* txIterator(data)
 {
     for (let i = 0;i<data.length;i++)
@@ -18,6 +18,8 @@ function* txIterator(data)
     }
 
 }
+
+//Listen for Key pressed (for debugging)
 const keypress = async () => 
 {
     process.stdin.setRawMode(true)

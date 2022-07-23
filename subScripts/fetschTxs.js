@@ -13,7 +13,7 @@ const ERC721Txs = `https://api.etherscan.io/api?module=account&action=tokennfttx
 const ERC1155Txs = `https://api.etherscan.io/api?module=account&action=token1155tx&address=${wallet}&page=1&offset=9000&startblock=0&endblock=99999999&sort=asc&apikey=FZNRAKKI5G24D4YP61TM22FUGWSQH4JXKN`
 const fs = require('fs')
 
-
+// TODO Concat these 5 functions? --> To Utils
 async function fetchNormalTxs() 
 {
     const response = await fetch(NormalTxs)

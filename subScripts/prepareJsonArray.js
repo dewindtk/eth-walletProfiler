@@ -1,18 +1,18 @@
 wallets = require('../wallets.json')
+const utils = require('./utils.js')
+const fs = require('fs');
+
 //Only supports one wallet for now
 wallet = Object.keys(wallets)[0]
 wname = wallets[wallet][0]
 timeStamp = wallets[wallet][1]
-
 userNormalTxs = require(`../WALLET_${wname}/${wname}_NormalTxs.json`);
 userInternalTxs = require(`../WALLET_${wname}/${wname}_InternalTxs.json`);
 userERC20Txs = require(`../WALLET_${wname}/${wname}_ERC20Txs.json`);
 userERC721Txs = require(`../WALLET_${wname}/${wname}_ERC721Txs.json`);
 userERC1155Txs = require(`../WALLET_${wname}/${wname}_ERC1155Txs.json`);
-const fs = require('fs');
-const utils = require('./utils.js')
 
-async function concat(dataJsons) //Input Array of TxJsons
+async function concatJsons(dataJsons) //Input Array of TxJsons
 {
 
     //Merge json Arrays to single Array
@@ -55,7 +55,7 @@ async function discardTimestamp(arr, stamp)
 
 async function main()
 {
-    await concat([userNormalTxs, userInternalTxs, userERC20Txs, userERC721Txs, userERC1155Txs]);
+    await concatJsons([userNormalTxs, userInternalTxs, userERC20Txs, userERC721Txs, userERC1155Txs]);
     userMERGEDTxs = require(`../WALLET_${wname}/${wname}_MERGEDTxs_ALL.json`);
     await discardTimestamp(userMERGEDTxs, timeStamp);
 }
@@ -64,5 +64,3 @@ async function main()
 module.exports = {
     main
 }
-// concat([userNormalTxs, userInternalTxs, userERC20Txs, userERC721Txs, userERC1155Txs]);
-// discardTimestamp(userMERGEDTxs, 1640991599);

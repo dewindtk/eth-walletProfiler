@@ -1,7 +1,7 @@
-const utils = require("./subScripts/utils.js")
-const fs = require("fs")
-const readline = require("readline");
 const rl = readline.createInterface({input: process.stdin,output: process.stdout,});
+const utils = require("./subScripts/utils.js")
+const readline = require("readline");
+const fs = require("fs")
 var wallets = {}
 var addy = ""
 var wname = ""
@@ -59,8 +59,9 @@ async function main(){
     console.log("----FetchTxs DONE")
 
     const prepareJsonArray = require("./subScripts/prepareJsonArray.js")
+    console.log("Parsing Txs...")
     await prepareJsonArray.main()
-    console.log("----PrepareJsonArray DONE")
+    console.log("----PrepareJsonArrays DONE")
 
     const processTxs = require("./subScripts/processTxs")
     console.log("processing Txs...")
