@@ -30,7 +30,7 @@ Please check the Example Output for reference :)
 
 
 ### TODO (Roadmap :P)
-- UI (python?)
+- UI (python?) (Actually no Python UI looks kinda shet)
 - Visualization of your inventory
 - Iteration through timestamps with arrow keys
 - ENS names
