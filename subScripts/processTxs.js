@@ -222,7 +222,7 @@ function processERC1155(tx)
     }
 }
 
-async function processEtherorcsLegacy()
+async function processEtherorcs()
 {
 
     abi = [{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]
@@ -299,15 +299,15 @@ async function main()
         if (thisDone == true) 
         {
             //Etherorcs Legacy Inventory update
-            await processEtherorcsLegacy();
+            await processEtherorcs();
 
-            // console.log("---Process Txs DONE")
-            // console.log(`### YOUR INVENTORY on the ${utils.getTime(timeStamp).toString()}: ###`)
-            // console.log("Total Value: ", ETHInv)
-            // console.log("ERC20 Inventory: ", ERC20Inv)
-            // console.log("ERC721 Inventory: ", ERC721Inv)
-            // console.log("ERC1155 Inventory: ", ERC1155Inv)
-            // console.log("Saving these into: " + `./WALLET_${wname}_${timeStamp}.txt`)
+            console.log("---Process Txs DONE")
+            console.log(`### YOUR INVENTORY on the ${utils.getTime(timeStamp).toString()}: ###`)
+            console.log("Total Value: ", ETHInv)
+            console.log("ERC20 Inventory: ", ERC20Inv)
+            console.log("ERC721 Inventory: ", ERC721Inv)
+            console.log("ERC1155 Inventory: ", ERC1155Inv)
+            console.log("Saving these into: " + `./WALLET_${wname}_${timeStamp}.txt`)
             await utils.saveInv(wname, wallet, timeStamp, ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv)
             console.log("All done, exiting")
             return 0
