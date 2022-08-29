@@ -342,6 +342,7 @@ async function main()
 
         // For debugging
         // await utils.keypress()
+        // node walletProfiler.js addy=0xbC5126Ea9D3A9b7e8353051DC646bfC4fC65c1F7 wname=kaikunkaikun stamp=1661757138
 
     }
 };
@@ -349,3 +350,4 @@ async function main()
 module.exports = {
     main
 }
+
