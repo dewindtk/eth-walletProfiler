@@ -227,9 +227,12 @@ async function processEtherorcsLegacy()
 
     abi = [{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]
     legacyOrcs = new ethers.Contract("0x7d9d3659dcfbea08a87777c52020bc672deece13", abi, provider)
+    genesisOrcs = new ethers.Contract("0x7d9d3659dcfbea08a87777c52020bc672deece13", abi, provider)
+
     if ("0x7d9d3659dcfbea08a87777c52020bc672deece13" in ERC721Inv)
     {
         for (i=0;i<(ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].length-1);i++)
+        {
         
             currentID = ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"][i+1]
             OwnerOf = await legacyOrcs.ownerOf(currentID)
@@ -246,6 +249,25 @@ async function processEtherorcsLegacy()
         }
     }
 
+    if ("0x3abedba3052845ce3f57818032bfa747cded3fca" in ERC721Inv)
+    {
+        for (i=0;i<(ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].length-1);i++)
+        {
+        
+            currentID = ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"][i+1]
+            OwnerOf = await genesisOrcs.ownerOf(currentID)
+            if (OwnerOf.toLowerCase() != wallet)
+            {
+                ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].splice(i+1,1)
+                i--
+            }
+        }
+
+        if (ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].length == 1)
+        {
+            delete ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"]
+        }
+    }
 }
 
 
