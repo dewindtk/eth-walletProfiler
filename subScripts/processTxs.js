@@ -13,6 +13,7 @@ timeStamp = wallets[wallet][1]
 
 var Web3 = require('web3');
 var web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.MAINNETAPIKEY}`);
+const provider = new ethers.providers.JsonRpcProvider(`https://eth-mainnet.alchemyapi.io/v2/${process.env.MAINNETAPIKEY}`);
 
 // const Web3 = require('web3');
 const userTxs = require(`../WALLET_${wname}/${wname}_MERGEDTxs_${timeStamp}.json`)
@@ -132,7 +133,7 @@ function processERC721(tx)
         tokenName: tx.tokenName,
     }
 
-    //Etherorcs weird ERC721 implementation support (case specific)
+    //Etherorcs weird ERC721 implementation support (case specific) - transfer to self.
     if ((tx.contractAddress === "0x7d9d3659dcfbea08a87777c52020bc672deece13" || 
         tx.contractAddress === "0x3aBEDBA3052845CE3f57818032BFA747CDED3fca") && 
         tx.to.toLowerCase() === wallet && tx.from.toLowerCase() === wallet)
@@ -221,6 +222,32 @@ function processERC1155(tx)
     }
 }
 
+async function processEtherorcsLegacy()
+{
+
+    abi = [{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]
+    legacyOrcs = new ethers.Contract("0x7d9d3659dcfbea08a87777c52020bc672deece13", abi, provider)
+    if ("0x7d9d3659dcfbea08a87777c52020bc672deece13" in ERC721Inv)
+    {
+        for (i=0;i<(ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].length-1);i++)
+        
+            currentID = ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"][i+1]
+            OwnerOf = await legacyOrcs.ownerOf(currentID)
+            if (OwnerOf.toLowerCase() != wallet)
+            {
+                ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].splice(i+1,1)
+                i--
+            }
+        }
+
+        if (ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].length == 1)
+        {
+            delete ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"]
+        }
+    }
+
+}
+
 
 
 async function main() 
@@ -249,14 +276,16 @@ async function main()
         thisDone = thisTx.done
         if (thisDone == true) 
         {
+            //Etherorcs Legacy Inventory update
+            await processEtherorcsLegacy();
 
-            console.log("---Process Txs DONE")
-            console.log(`### YOUR INVENTORY on the ${utils.getTime(timeStamp).toString()}: ###`)
-            console.log("Total Value: ", ETHInv)
-            console.log("ERC20 Inventory: ", ERC20Inv)
-            console.log("ERC721 Inventory: ", ERC721Inv)
-            console.log("ERC1155 Inventory: ", ERC1155Inv)
-            console.log("Saving these into: " + `./WALLET_${wname}_${timeStamp}.txt`)
+            // console.log("---Process Txs DONE")
+            // console.log(`### YOUR INVENTORY on the ${utils.getTime(timeStamp).toString()}: ###`)
+            // console.log("Total Value: ", ETHInv)
+            // console.log("ERC20 Inventory: ", ERC20Inv)
+            // console.log("ERC721 Inventory: ", ERC721Inv)
+            // console.log("ERC1155 Inventory: ", ERC1155Inv)
+            // console.log("Saving these into: " + `./WALLET_${wname}_${timeStamp}.txt`)
             await utils.saveInv(wname, wallet, timeStamp, ETHInv, ERC20Inv, ERC721Inv, ERC1155Inv)
             console.log("All done, exiting")
             return 0
