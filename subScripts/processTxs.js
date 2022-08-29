@@ -227,7 +227,7 @@ async function processEtherorcs()
 
     abi = [{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]
     legacyOrcs = new ethers.Contract("0x7d9d3659dcfbea08a87777c52020bc672deece13", abi, provider)
-    genesisOrcs = new ethers.Contract("0x7d9d3659dcfbea08a87777c52020bc672deece13", abi, provider)
+    genesisOrcs = new ethers.Contract("0x3abedba3052845ce3f57818032bfa747cded3fca", abi, provider)
 
     if ("0x7d9d3659dcfbea08a87777c52020bc672deece13" in ERC721Inv)
     {
