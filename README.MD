@@ -38,4 +38,4 @@ Please check the Example Output for reference :)
 
 Pls send me feedbacks and requests on discord! :D
 
-Caution: some contracts (such as the ETHERORCS NFT contract) may not Emit Token transfer events correctly. This means your inventory will not be updated correctly (As I am fetching your Txs from etherscan, which sometimes cannot be trusted). ETHERORCS is supported by this script, however if you get an error (or other errors in general) pls lmk and I will add support for those! Thx!
+Caution: some contracts (such as the ETHERORCS NFT contract) may not Emit Token transfer events correctly. This was the case for the EtherOrcs (both legacy and Genesis ) collections, which emitted tokenTransfer Events incorrectly which lead to incorrect representations on etherscan (Yup, learned here myself that etherscan cannot be fullly trusted). ETHERORCS is supported by this script, it goes through a manual inventory check on your recorded EtherOrcs balance. If you experience a similar situation (or other errors in general) pls lmk and I will add custom support for you! Thx!
