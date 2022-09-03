@@ -153,17 +153,18 @@ function processERC721(tx)
         }
         // If Tx.to = anon, remove token.
         if ((thisToken.contractAddress in ERC721Inv))
+        {
+            indexSold = ERC721Inv[thisToken.contractAddress].indexOf(thisToken.tokenID)
+            if (indexSold != -1)
             {
-                indexSold = ERC721Inv[thisToken.contractAddress].indexOf(thisToken.tokenID)
-                if (indexSold != -1)
-                {
-                    ERC721Inv[thisToken.contractAddress].splice(indexSold, 1)
-                }
-                if (ERC721Inv[thisToken.contractAddress].length == 1)
-                {
-                    delete ERC721Inv[thisToken.contractAddress]
-                }
+                ERC721Inv[thisToken.contractAddress].splice(indexSold, 1)
             }
+            if (ERC721Inv[thisToken.contractAddress].length == 1)
+            {
+                delete ERC721Inv[thisToken.contractAddress]
+            }
+            return 0
+        }
     }
 
     if (tx.to.toLowerCase() === wallet)  //Emit errors TODO
