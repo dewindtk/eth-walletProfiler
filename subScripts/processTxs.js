@@ -135,15 +135,35 @@ function processERC721(tx)
 
     //Etherorcs weird ERC721 implementation support (case specific) - transfer to self.
     if ((tx.contractAddress === "0x7d9d3659dcfbea08a87777c52020bc672deece13" || 
-        tx.contractAddress === "0x3aBEDBA3052845CE3f57818032BFA747CDED3fca") && 
-        tx.to.toLowerCase() === wallet && tx.from.toLowerCase() === wallet)
+        tx.contractAddress === "0x3aBEDBA3052845CE3f57818032BFA747CDED3fca"))
     {
-        if (!(thisToken.contractAddress in ERC721Inv))
+        //If tx.to = self, add token.
+        if (tx.to.toLowerCase() === wallet)
         {
-            ERC721Inv[thisToken.contractAddress] = [thisToken.tokenName, thisToken.tokenID]
+            if (!(thisToken.contractAddress in ERC721Inv))
+            {
+                ERC721Inv[thisToken.contractAddress] = [thisToken.tokenName, thisToken.tokenID]
+            }
+            else if(!ERC721Inv[thisToken.contractAddress].includes(thisToken.tokenID))
+            {
+                ERC721Inv[thisToken.contractAddress].push(thisToken.tokenID)
+            }
+            // DO NOT DO ANYTHING If token already in inventory. This is a transfer to themselves.
+            return 0
         }
-        else {ERC721Inv[thisToken.contractAddress].push(thisToken.tokenID)}
-        return 0
+        // If Tx.to = anon, remove token.
+        if ((thisToken.contractAddress in ERC721Inv))
+            {
+                indexSold = ERC721Inv[thisToken.contractAddress].indexOf(thisToken.tokenID)
+                if (indexSold != -1)
+                {
+                    ERC721Inv[thisToken.contractAddress].splice(indexSold, 1)
+                }
+                if (ERC721Inv[thisToken.contractAddress].length == 1)
+                {
+                    delete ERC721Inv[thisToken.contractAddress]
+                }
+            }
     }
 
     if (tx.to.toLowerCase() === wallet)  //Emit errors TODO
@@ -222,53 +242,54 @@ function processERC1155(tx)
     }
 }
 
-async function processEtherorcs()
-{
+//Maybe hardhat check inventory at the time. now not used.
+// async function processEtherorcs()
+// {
 
-    abi = [{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]
-    legacyOrcs = new ethers.Contract("0x7d9d3659dcfbea08a87777c52020bc672deece13", abi, provider)
-    genesisOrcs = new ethers.Contract("0x3abedba3052845ce3f57818032bfa747cded3fca", abi, provider)
+//     abi = [{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]
+//     legacyOrcs = new ethers.Contract("0x7d9d3659dcfbea08a87777c52020bc672deece13", abi, provider)
+//     genesisOrcs = new ethers.Contract("0x3abedba3052845ce3f57818032bfa747cded3fca", abi, provider)
 
-    if ("0x7d9d3659dcfbea08a87777c52020bc672deece13" in ERC721Inv)
-    {
-        for (i=0;i<(ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].length-1);i++)
-        {
+//     if ("0x7d9d3659dcfbea08a87777c52020bc672deece13" in ERC721Inv)
+//     {
+//         for (i=0;i<(ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].length-1);i++)
+//         {
         
-            currentID = ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"][i+1]
-            OwnerOf = await legacyOrcs.ownerOf(currentID)
-            if (OwnerOf.toLowerCase() != wallet)
-            {
-                ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].splice(i+1,1)
-                i--
-            }
-        }
+//             currentID = ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"][i+1]
+//             OwnerOf = await legacyOrcs.ownerOf(currentID)
+//             if (OwnerOf.toLowerCase() != wallet)
+//             {
+//                 ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].splice(i+1,1)
+//                 i--
+//             }
+//         }
 
-        if (ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].length == 1)
-        {
-            delete ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"]
-        }
-    }
+//         if (ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"].length == 1)
+//         {
+//             delete ERC721Inv["0x7d9d3659dcfbea08a87777c52020bc672deece13"]
+//         }
+//     }
 
-    if ("0x3abedba3052845ce3f57818032bfa747cded3fca" in ERC721Inv)
-    {
-        for (i=0;i<(ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].length-1);i++)
-        {
+//     if ("0x3abedba3052845ce3f57818032bfa747cded3fca" in ERC721Inv)
+//     {
+//         for (i=0;i<(ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].length-1);i++)
+//         {
         
-            currentID = ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"][i+1]
-            OwnerOf = await genesisOrcs.ownerOf(currentID)
-            if (OwnerOf.toLowerCase() != wallet)
-            {
-                ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].splice(i+1,1)
-                i--
-            }
-        }
+//             currentID = ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"][i+1]
+//             OwnerOf = await genesisOrcs.ownerOf(currentID)
+//             if (OwnerOf.toLowerCase() != wallet)
+//             {
+//                 ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].splice(i+1,1)
+//                 i--
+//             }
+//         }
 
-        if (ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].length == 1)
-        {
-            delete ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"]
-        }
-    }
-}
+//         if (ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"].length == 1)
+//         {
+//             delete ERC721Inv["0x3abedba3052845ce3f57818032bfa747cded3fca"]
+//         }
+//     }
+// }
 
 
 
@@ -299,7 +320,7 @@ async function main()
         if (thisDone == true) 
         {
             //Etherorcs Legacy Inventory update
-            await processEtherorcs();
+            // await processEtherorcs();
 
             console.log("---Process Txs DONE")
             console.log(`### YOUR INVENTORY on the ${utils.getTime(timeStamp).toString()}: ###`)

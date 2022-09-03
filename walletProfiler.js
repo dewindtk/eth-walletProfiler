@@ -1,5 +1,6 @@
 const readline = require("readline");
 const utils = require("./subScripts/utils.js")
+const args = require('args-parser')(process.argv)
 const fs = require("fs")
 var wallets = {}
 var addy = ""
@@ -37,10 +38,21 @@ const question3 = () => {
 
 
 async function main(){
-    await question1()
-    await question2()
-    await question3()
-    rl.close()
+
+    if (Object.keys(args).length == 3)
+    {
+        addy = args.addy.toLowerCase()
+        wname = args.wname
+        stamp = args.stamp
+    }
+    else
+    {
+        await question1()
+        await question2()
+        await question3()
+        rl.close()
+    }
+
 
     wallets[addy] = [wname, stamp]
 
