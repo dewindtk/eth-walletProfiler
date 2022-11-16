@@ -230,8 +230,13 @@ function processERC1155(tx)
     }
     if (tx.from.toLowerCase() === wallet) //Emit errors TODO 
     {
+        //Failsafe: 0xa828165bacf55f83be678bf19b7a8c2d4f17242b
+        if (!(thisToken.contractAddress in ERC1155Inv)){
+            return 
+        }
 
         indexSold = ERC1155Inv[thisToken.contractAddress].indexOf(thisToken.tokenID)
+        
         if (indexSold != -1)
         {
             ERC1155Inv[thisToken.contractAddress].splice(indexSold, thisToken.amount)
